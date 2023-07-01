@@ -20,6 +20,7 @@ $ python3 main.py
 ```
 Black represents traps, brown represents walls, green represents the destination, red represents the starting point, and gray represents the accessible path.👇🏻 (ps: If the bot falls into a trap, it will be returned to the starting point.)
 <div align="center"> <img src="image/mazebot.gif" width = "25%" height = "25%"> </div>
+<div align="center">The bot will become smarter as it tries different moves.</div>
 
 ## Contributing
 Contributions must be available on a separately named branch based on the latest version of the main branch.
