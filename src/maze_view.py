@@ -7,7 +7,7 @@ class MazeView(tk.Tk):
         self.start = None
         self.cv = None
         self.maze = mz
-        self.wm_title("MazeGame")
+        self.wm_title("mazeBot")
         self.geometry('{0}x{1}'.format(len(self.maze) * 36 + 5, len(self.maze[0]) * 36 + 5))
         self.tags = {'r': "gray",
                      'w': "saddlebrown",
