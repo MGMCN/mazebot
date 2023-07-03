@@ -3,6 +3,7 @@ import random
 
 class Maze:
     def __init__(self, row=5, column=5, wall=1, trap=1):
+        self.maze = None
         self.row = row
         self.column = column
         self.wall = wall
@@ -13,7 +14,6 @@ class Maze:
                         's': 0,
                         'e': 1}
         self.actions = ['up', 'down', 'left', 'right']
-        self.maze = [['r' for _ in range(column)] for _ in range(row)]
         self.state = [0, 0]
 
     def reset(self):
@@ -29,11 +29,14 @@ class Maze:
             self.maze[i][j] = tag
 
     def get_maze(self):
-        self.maze[0][0] = 's'
-        self.maze[self.row - 1][self.column - 1] = 'e'
-        self.set_maze('w', self.wall)
-        self.set_maze('t', self.trap)
-        return self.maze
+        while True:
+            self.maze = [['r' for _ in range(self.column)] for _ in range(self.row)]
+            self.maze[0][0] = 's'
+            self.maze[self.row - 1][self.column - 1] = 'e'
+            self.set_maze('w', self.wall)
+            self.set_maze('t', self.trap)
+            if self.bfs([0, 0], [self.row - 1, self.column - 1]):
+                return self.maze
 
     def get_state(self):
         return self.state.copy()
@@ -66,3 +69,24 @@ class Maze:
             done = True
 
         return self.state.copy(), self.rewards[self.maze[self.state[0]][self.state[1]]], done
+
+    def bfs(self, start, end):
+        dx = [0, 0, -1, 1]
+        dy = [-1, 1, 0, 0]
+        queue = [start]
+        visited = {tuple(start)}  # set()
+        reachable = False
+        while queue:
+            current = queue.pop(0)
+            if current == end:
+                reachable = True
+                break
+
+            for i in range(4):
+                nx, ny = current[0] + dx[i], current[1] + dy[i]
+                if (0 <= nx < self.row) and (0 <= ny < self.column) and (self.maze[nx][ny] not in ('w', 't')) and (
+                        tuple([nx, ny]) not in visited):
+                    queue.append([nx, ny])
+                    visited.add(tuple([nx, ny]))
+
+        return reachable
