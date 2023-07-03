@@ -36,7 +36,8 @@ class Maze:
             self.set_maze('w', self.wall)
             self.set_maze('t', self.trap)
             if self.bfs([0, 0], [self.row - 1, self.column - 1]):
-                return self.maze
+                break
+        return self.maze
 
     def get_state(self):
         return self.state.copy()
